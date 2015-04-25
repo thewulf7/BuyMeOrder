@@ -7,5 +7,5 @@
  */
 
 function front_index($params=array()){
-    echo "Hello World";
+    print_r($params);
 }

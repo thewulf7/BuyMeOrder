@@ -8,7 +8,6 @@
  */
 
 require_once("config.php");
-require_once("loader.php");
+require_once("app/loader.php");
 
 route();
-

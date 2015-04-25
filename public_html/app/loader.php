@@ -10,10 +10,11 @@ function loader_init()
 {
     global $CONFIG;
     $toload = $CONFIG["loader"]["init"];
+    chdir("app");
     if (!empty($toload)):
         foreach ($toload as $file):
             if ((file_exists($file . ".php"))):
-                include_once("./" . $file . ".php");
+                include_once($file . ".php");
             endif;
         endforeach;
     endif;
@@ -22,6 +23,7 @@ function loader_init()
 
 function loader_action($controller = "", $action = "")
 {
+    chdir("../");
     if (is_dir($controller . "Controller")):
         if ((file_exists($controller . "Controller/" . $action . ".php"))):
             include_once($controller . "Controller/" . $action . ".php");
@@ -33,6 +35,7 @@ function loader_action($controller = "", $action = "")
 
 function loader_controller($controller = "")
 {
+    chdir("../");
     $dir = $controller . "Controller";
     if (is_dir($dir)):
         if ($handle = opendir($dir)) {
