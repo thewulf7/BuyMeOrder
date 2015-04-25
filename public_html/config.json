@@ -1,0 +1,5 @@
+{
+  "loader": {
+    "init":["db","route"]
+  }
+}
