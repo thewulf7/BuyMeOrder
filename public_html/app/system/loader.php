@@ -13,13 +13,13 @@
 function loader_init()
 {
     global $CONFIG;
-    chdir("app/system");
+    chdir(APP_PATH."/system");
     $toload = $CONFIG["loader"]["init"];
     if (!empty($toload)):
         foreach ($toload as $file):
-            if (file_exists($file.".php")):
-               $fileinfo = pathinfo($file.".php");
-               if ($fileinfo['extension'] === "php") require_once($file.".php");
+            if (file_exists($file . ".php")):
+                $fileinfo = pathinfo($file . ".php");
+                if ($fileinfo['extension'] === "php") require_once($file . ".php");
             endif;
         endforeach;
     endif;
@@ -35,26 +35,23 @@ function loader_init()
  */
 function loader_action($controller = "", $action = "")
 {
-    chdir("../app/controllers");
-    if (is_dir($controller . "Controller")):
-        if ((file_exists($controller . "Controller/" . $action . ".php"))):
-            include_once($controller . "Controller/" . $action . ".php");
+    if (is_dir(APP_PATH."/controllers/".$controller . "Controller")):
+        if (file_exists(APP_PATH."/controllers/".$controller . "Controller/" . $action . ".php")):
+            include_once(APP_PATH."/controllers/".$controller . "Controller/" . $action . ".php");
             return true;
         endif;
     endif;
-    chdir("../");
     return false;
 }
 
 /**
- * Подключить системные файлы
+ * Подключить контроллер
  * @param string $controller контроллер
  * @return bool
  */
 function loader_controller($controller = "")
 {
-    chdir("../app/controllers");
-    $dir = $controller . "Controller";
+    $dir = APP_PATH."/controllers/".$controller . "Controller";
     if (is_dir($dir)):
         if ($handle = opendir($dir)) {
             chdir($dir);
@@ -69,6 +66,33 @@ function loader_controller($controller = "")
         closedir($handle);
         return true;
     endif;
-    chdir("../");
     return false;
 }
+
+/**
+ * Подключить модель
+ * @param string $model метод
+ * @return bool
+ */
+function loader_model($model)
+{
+    if (file_exists(APP_PATH."/models/".$model . ".php")):
+        include_once(APP_PATH."/models/".$model . ".php");
+        return true;
+    endif;
+    return false;
+}
+/**
+ * Подключить шаблон
+ * @param string $model метод
+ * @return bool
+ */
+function loader_template($file)
+{
+    if ((file_exists(APP_PATH."/template/".$file . ".php"))):
+        $content = file_get_contents(APP_PATH."/template/".$file . ".php");
+        return $content;
+    endif;
+    return false;
+}
+

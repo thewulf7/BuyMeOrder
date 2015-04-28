@@ -20,7 +20,7 @@ function user_auth($username = false, $passwd = false)
 
     if (!$username || !$passwd) return false;
 
-    $user = l_mysql_query("SELECT id,passwd,salt FROM {$tablename} WHERE name='%s' LIMIT 1", array($username));
+    $user = l_mysql_query("SELECT id,passwd,salt FROM {$tablename} WHERE email='%s' LIMIT 1", array($username));
 
     list($id, $password, $salt) = mysqli_fetch_row($user);
 
@@ -28,20 +28,19 @@ function user_auth($username = false, $passwd = false)
 
     $hashpasswd = crypt($passwd, $salt);
 
-    if ($hashpasswd === $password):
+    if (hash_equals($hashpasswd, $password)):
         $hash = md5(mt_rand());
-        l_mysql_query("UPDATE {$tablename} SET userhash='" . $hash . "' WHERE id='{$id}'");
+        l_mysql_query("UPDATE {$tablename} SET userhash='%s' WHERE id='%d'",array($hash,$id));
         setcookie("VKDEV_USER_ID", $id, time() + 60 * 60 * 24 * 30, "/");
         setcookie("VKDEV_USER_HASH", $hash, time() + 60 * 60 * 24 * 30, "/");
         return $id;
     else:
         return false;
     endif;
-
-    //$salt = '$2a$10$'.substr(str_replace('+', '.', base64_encode(pack('N4', mt_rand(), mt_rand(), mt_rand(),mt_rand()))), 0, 22) . '$';
 }
 
-function user_checkauth($id,$hash){
+function user_checkauth($id, $hash)
+{
 
     $tablename = user_getTablename();
 
@@ -51,26 +50,55 @@ function user_checkauth($id,$hash){
 
     list($hashReal) = mysqli_fetch_row($user);
 
-    return $hashReal===$hash ? true : false;
+    return $hashReal === $hash ? true : false;
 }
 
 function user_getInfo()
 {
     $tablename = user_getTablename();
 
+    loader_model("bank_balance");
+
     $user_hash = $_COOKIE["VKDEV_USER_HASH"];
     $user_id = $_COOKIE["VKDEV_USER_ID"];
 
     if (!isset($user_id) || !isset($user_hash)) return false;
 
-    if(user_checkauth($user_id,$user_hash)){
+    if (user_checkauth($user_id, $user_hash)) {
 
-        $user = l_mysql_query("SELECT name FROM {$tablename} WHERE id='%s' LIMIT 1", array($user_id));
+        $user = l_mysql_query("SELECT email,username,balance,salt FROM {$tablename} WHERE id='%s' LIMIT 1", array($user_id));
 
-        list($user_name) = mysqli_fetch_row($user);
+        list($email,$user_name,$balance,$salt) = mysqli_fetch_row($user);
 
-        return array("ID"=>$user_id,"NAME"=>$user_name);
+        $balance = bank_balance_get($balance);
 
-    } else return array("NAME"=>"anonymous");
+        return array("ID" => $user_id, "NAME" => $user_name, "EMAIL" => $email, "BALANCE"=>user_helperbalance($balance,$salt));
+
+    } else return array("NAME" => "anonymous");
+}
+
+function user_create($email, $passwd, $username, $group = 2)
+{
+    if(empty($email) || empty($passwd) || empty($username)) return false;
+
+    loader_model("bank_balance");
+
+    $tablename = user_getTablename();
+
+    $salt = '$2a$10$' . substr(str_replace('+', '.', base64_encode(pack('N4', mt_rand(), mt_rand(), mt_rand(), mt_rand()))), 0, 22) . '$';
+    $hashpasswd = crypt($passwd, $salt);
+
+    //create balance
+    $balance = bank_balance_create($salt);
+
+    $user_id = l_mysql_query("INSERT INTO {$tablename} (username,email,usergroup,passwd,salt,balance) VALUES ('%s','%s','%s','%s','%s','%d')",array($username,$email,$group,$hashpasswd,$salt,$balance));
+
+
+    return $user_id>0 ? $user_id : 0;
+}
+
+function user_helperbalance($balance=0,$salt){
+    $salt = (int)preg_replace('/[^0-9.]+/', '', $salt);
+    return (float) ($balance-$salt);
 }
 

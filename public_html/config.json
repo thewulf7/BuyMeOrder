@@ -1,7 +1,7 @@
 {
   "loader": {
     "init": [
-      "db","route","auth"
+      "db","route","auth","templater"
     ]
   },
   "db": {
@@ -10,5 +10,8 @@
     "password": "nostr@Damus",
     "dbname": "vkdev",
     "prefix": "vkdev_"
+  },
+  "template" : {
+    "layout" : "default"
   }
 }

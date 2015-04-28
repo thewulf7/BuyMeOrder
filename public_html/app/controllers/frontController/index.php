@@ -14,5 +14,7 @@
 function front_index($params = array())
 {
     global $USER;
-    echo "Hello World";
+    //$new_user = user_create("thewulf7@me.com","spbfitos13","thewulf7");
+    //user_auth("thewulf7@me.com","spbfitos13");
+    echo "Hello World, ".$USER["NAME"];
 }

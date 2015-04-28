@@ -5,6 +5,7 @@
  * Date: 27.04.15
  * Time: 15:49
  */
+define("APP_PATH",__DIR__);
 
 require_once("system/loader.php");
 
