@@ -6,9 +6,15 @@
  * Time: 12:14
  */
 
-function loadConfig(){
+/**
+ * Загрузить файл с конфигами
+ * @return array
+ */
+function loadConfig()
+{
     $config = file_get_contents("./config.json");
-    return json_decode($config,true);
+    return !empty($config) ? json_decode($config, true) : array();
 }
 
+//загружаем конфиги
 $CONFIG = loadConfig();

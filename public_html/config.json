@@ -1,5 +1,14 @@
 {
   "loader": {
-    "init":["db","route"]
+    "init": [
+      "db","route","auth"
+    ]
+  },
+  "db": {
+    "server": "127.0.0.1",
+    "user": "dbuser",
+    "password": "nostr@Damus",
+    "dbname": "vkdev",
+    "prefix": "vkdev_"
   }
 }
