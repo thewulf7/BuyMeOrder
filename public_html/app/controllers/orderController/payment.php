@@ -30,5 +30,5 @@ function order_payment($id = false)
             "data[signature]" => md5("{$id}:{$order["seller"]}:{$USER["ID"]}:{$order["price"]}")
         )
     );
-    render("order/payment", $result);
+    render_partial("order/payment", $result);
 }

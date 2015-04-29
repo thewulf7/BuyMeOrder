@@ -15,7 +15,3 @@ loader_init();
 //инициализируем юзера
 $USER = array();
 user_get();
-
-
-
-var_dump($USER);

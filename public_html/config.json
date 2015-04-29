@@ -1,7 +1,11 @@
 {
   "loader": {
     "init": [
-      "db","route","auth","templater"
+      "db",
+      "route",
+      "auth",
+      "permissions",
+      "templater"
     ]
   },
   "db": {
@@ -11,7 +15,7 @@
     "dbname": "vkdev",
     "prefix": "vkdev_"
   },
-  "template" : {
-    "layout" : "default"
+  "template": {
+    "layout": "default"
   }
 }

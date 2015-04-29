@@ -7,9 +7,14 @@
  */
 
 function order_add(){
-    echo "123";
+
+    global $USER;
+
+    if(!in_array("create",$USER["PERM"])) throw new Exception(sprintf("Ошибка: %s","Нет прав"));
+
     if(!empty($_POST)):
         $data = $_POST["data"];
     endif;
-    render("order/add");
+
+    render_partial("order/add");
 }

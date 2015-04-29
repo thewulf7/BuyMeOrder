@@ -13,4 +13,6 @@ function user_get()
     global $USER;
 
     $USER = user_getInfo();
+
+    $USER["PERM"]=check_perm();
 }

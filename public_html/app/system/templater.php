@@ -24,3 +24,8 @@ function render($template = "", $params = array())
     layout($template, $content);
 
 }
+
+function render_partial($template, $params=array())
+{
+    echo loader_template($template);
+}
