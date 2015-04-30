@@ -30,13 +30,30 @@ function user_auth($username = false, $passwd = false)
 
     if (hash_equals($hashpasswd, $password)):
         $hash = md5(mt_rand());
-        l_mysql_query("UPDATE {$tablename} SET userhash='%s' WHERE id='%d'",array($hash,$id));
+        l_mysql_query("UPDATE {$tablename} SET userhash='%s' WHERE id='%d'", array($hash, $id));
         setcookie("VKDEV_USER_ID", $id, time() + 60 * 60 * 24 * 30, "/");
         setcookie("VKDEV_USER_HASH", $hash, time() + 60 * 60 * 24 * 30, "/");
         return $id;
     else:
         return false;
     endif;
+}
+
+function user_logout()
+{
+    global $USER;
+
+    if (isset($_COOKIE["VKDEV_USER_ID"]) && isset($_COOKIE["VKDEV_USER_HASH"])):
+
+        setcookie("VKDEV_USER_ID", null, -1, "/");
+        setcookie("VKDEV_USER_HASH", null, -1, "/");
+
+        header('Location: /');
+
+        return true;
+
+    endif;
+
 }
 
 function user_checkauth($id, $hash)
@@ -68,18 +85,18 @@ function user_getInfo()
 
         $user = l_mysql_query("SELECT email,username,balance,salt FROM {$tablename} WHERE id='%s' LIMIT 1", array($user_id));
 
-        list($email,$user_name,$balance,$salt) = mysqli_fetch_row($user);
+        list($email, $user_name, $balance, $salt) = mysqli_fetch_row($user);
 
         $balance = bank_balance_get($balance);
 
-        return array("ID" => $user_id, "NAME" => $user_name, "EMAIL" => $email, "BALANCE"=>user_helperbalance($balance,$salt));
+        return array("ID" => $user_id, "NAME" => $user_name, "EMAIL" => $email, "BALANCE" => user_helperbalance($balance, $salt));
 
     } else return array("NAME" => "anonymous");
 }
 
 function user_create($email, $passwd, $username, $group = 2)
 {
-    if(empty($email) || empty($passwd) || empty($username)) return false;
+    if (empty($email) || empty($passwd) || empty($username)) return false;
 
     loader_model("bank_balance");
 
@@ -91,14 +108,15 @@ function user_create($email, $passwd, $username, $group = 2)
     //create balance
     $balance = bank_balance_create($salt);
 
-    $user_id = l_mysql_query("INSERT INTO {$tablename} (username,email,usergroup,passwd,salt,balance) VALUES ('%s','%s','%s','%s','%s','%d')",array($username,$email,$group,$hashpasswd,$salt,$balance));
+    $user_id = l_mysql_query("INSERT INTO {$tablename} (username,email,usergroup,passwd,salt,balance) VALUES ('%s','%s','%s','%s','%s','%d')", array($username, $email, $group, $hashpasswd, $salt, $balance));
 
 
-    return $user_id>0 ? $user_id : 0;
+    return $user_id > 0 ? $user_id : 0;
 }
 
-function user_helperbalance($balance=0,$salt){
+function user_helperbalance($balance = 0, $salt)
+{
     $salt = (int)preg_replace('/[^0-9.]+/', '', $salt);
-    return (int) ($balance-$salt);
+    return (int)($balance - $salt);
 }
 

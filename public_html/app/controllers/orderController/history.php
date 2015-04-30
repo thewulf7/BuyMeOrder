@@ -12,6 +12,6 @@ function order_history(){
             "ITEMS" => $items
         ));
     else:
-        render_partial("order/list_empty",array("message"=>"Архивных госзаказов нет"));
+        render_partial("order/list_empty", array("message" => "Архивных госзаказов нет"));
     endif;
 }

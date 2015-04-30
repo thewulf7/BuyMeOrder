@@ -24,39 +24,40 @@ function bank_balance_create($salt)
     return $id > 0 ? $id : false;
 }
 
-function bank_balance_get($id=false)
+function bank_balance_get($id = false)
 {
-    if(!$id) return false;
+    if (!$id) return false;
 
     $tablename = bank_balance_getTablename();
 
-    $query = l_mysql_query("SELECT balance FROM {$tablename} WHERE id='%d' LIMIT 1",array($id));
+    $query = l_mysql_query("SELECT balance FROM {$tablename} WHERE id='%d' LIMIT 1", array($id));
 
     list($balance) = mysqli_fetch_row($query);
 
     return base64_decode($balance);
 }
 
-function bank_balance_add($user_id,$order_price){
+function bank_balance_add($user_id, $order_price)
+{
 
-    if(!$user_id || !$order_price) return false;
+    if (!$user_id || !$order_price) return false;
 
     $usertablename = user_getTablename();
 
     $tablename = bank_balance_getTablename();
 
-    $query = l_mysql_query("SELECT balance,salt FROM {$usertablename} WHERE id='%d' LIMIT 1",array($user_id));
+    $query = l_mysql_query("SELECT balance,salt FROM {$usertablename} WHERE id='%d' LIMIT 1", array($user_id));
 
-    list($balance_id,$salt) = mysqli_fetch_row($query);
+    list($balance_id, $salt) = mysqli_fetch_row($query);
 
     $balance = bank_balance_get($balance_id);
 
-    $balance = user_helperbalance($balance,$salt)+$order_price;
+    $balance = user_helperbalance($balance, $salt) + $order_price;
 
     $salt = (int)preg_replace('/[^0-9.]+/', '', $salt);
     $balance = base64_encode($balance + $salt);
 
-    l_mysql_query("UPDATE {$tablename} SET balance='%s' WHERE id='%d'",array($balance,$balance_id));
+    l_mysql_query("UPDATE {$tablename} SET balance='%s' WHERE id='%d'", array($balance, $balance_id));
 
     return true;
 }

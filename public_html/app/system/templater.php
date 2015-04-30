@@ -15,7 +15,7 @@ function layout($title, $content)
     return true;
 }
 
-function custom_layout($title,$template,$content)
+function custom_layout($title, $template, $content)
 {
     global $CONFIG;
     global $USER;
@@ -36,11 +36,11 @@ function render($template = "", $params = array())
 
 }
 
-function render_partial($template, $params=array())
+function render_partial($template, $params = array())
 {
     global $USER;
     global $CONFIG;
-    $path = APP_PATH . "/template/" . $template. ".php";
+    $path = APP_PATH . "/template/" . $template . ".php";
 
     if (file_exists($path)) include_once($path);
     return true;

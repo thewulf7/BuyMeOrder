@@ -9,5 +9,5 @@
 function login_do()
 {
     global $USER;
-    custom_layout("Авторизация","login","");
+    custom_layout("Авторизация", "login", "");
 }

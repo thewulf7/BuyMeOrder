@@ -12,7 +12,8 @@ function bank_getTablename()
     return $CONFIG["db"]["prefix"] . "bank";
 }
 
-function bank_proceed($order_id,$buyer){
+function bank_proceed($order_id, $buyer)
+{
 
     global $CONFIG;
 
@@ -22,20 +23,20 @@ function bank_proceed($order_id,$buyer){
 
     $order = orders_get($order_id);
 
-    if(empty($order) || !$buyer) return false;
+    if (empty($order) || !$buyer) return false;
 
-    $already = l_mysql_query("SELECT id FROM {$tablename} WHERE order_id='%d'",array($order_id));
+    $already = l_mysql_query("SELECT id FROM {$tablename} WHERE order_id='%d'", array($order_id));
 
-    if($already) return;
+    if ($already) return;
 
     $order_price = base64_decode($order["price"]) - (int)$order_id;
 
-    $commission = (float) (100-$CONFIG["main"]["commission"])/100;
+    $commission = (float)(100 - $CONFIG["main"]["commission"]) / 100;
 
-    if($commission>0) $order_price = round($order_price*$commission);
+    if ($commission > 0) $order_price = round($order_price * $commission);
 
-    l_mysql_query("INSERT INTO {$tablename} (order_id,buyer,price,status) VALUES ('%d','%d','%s','%d')",array($order_id,$buyer,$order["price"],2));
+    l_mysql_query("INSERT INTO {$tablename} (order_id,buyer,price,status) VALUES ('%d','%d','%s','%d')", array($order_id, $buyer, $order["price"], 2));
 
-    if(bank_balance_add($buyer,$order_price)) return true;
+    if (bank_balance_add($buyer, $order_price)) return true;
     else return false;
 }

@@ -11,8 +11,11 @@ function order_add()
 
     global $USER;
 
-    if (!in_array("create", $USER["PERM"])) {render_partial("order/list_empty",array("message"=>"У вас нет прав. Никаких..."));return;}
-        //throw new Exception(sprintf("Ошибка: %s", "Нет прав"));
+    if (!in_array("create", $USER["PERM"])) {
+        render_partial("order/list_empty", array("message" => "У вас нет прав. Никаких..."));
+        return;
+    }
+    //throw new Exception(sprintf("Ошибка: %s", "Нет прав"));
 
     if (!empty($_POST)):
         $data = $_POST["data"];
@@ -20,7 +23,7 @@ function order_add()
         if ($data["csrf_token"] == $token):
             $data["descr"] = isset($data["descr"]) ? $data["descr"] : "";
             if ($id = orders_create($data["name"], $data["descr"], $data["price"], $USER["ID"])):
-                render_partial("order/success", array("message"=>"Госзаказ создан и добавлен в список!"));
+                render_partial("order/success", array("message" => "Госзаказ создан и добавлен в список!"));
             else:
                 render_partial("order/success", array("message" => "Произошла ошибка в процессе создания. ФСБ уже выехало к вам)"));
             endif;

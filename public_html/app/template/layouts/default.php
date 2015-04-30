@@ -46,7 +46,6 @@
     <link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
     <link rel="import" href="/bower_components/paper-dialog/paper-action-dialog.html">
     <link rel="import" href="/bower_components/paper-card/paper-card.html">
-    <link rel="import" href="/bower_components/core-animation/core-animation.html">
 
     <link rel="stylesheet" type="text/css" href="/app/template/css/style.css"/>
 </head>
@@ -65,6 +64,7 @@
 
         <nav>
             <a href="/" class="logo"><img src="http://i.imgur.com/MDy9e.png"/></a>
+            <h2 style="text-align: center"><?= $USER["NAME"]?></h2>
             <core-menu id="menu" valueattr="hash"
                        selected="{{route}}"
                        selectedModel="{{selectedPage}}"
@@ -80,7 +80,7 @@
         <core-toolbar tool flex>
             <div flex>{{selectedPage.page.name}}</div>
             <core-icon-button icon="refresh" id="refresh"></core-icon-button>
-            <div><?= $USER["NAME"]?></div>
+            <core-button><a href="/login/logout" style="color:#fff;text-decoration: none">Выйти</a></core-button>
         </core-toolbar>
 
         <div layout horizontal center-center fit>

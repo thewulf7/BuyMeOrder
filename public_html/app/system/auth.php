@@ -14,15 +14,16 @@ function user_get()
 
     $USER = user_getInfo();
 
-    $USER["PERM"]=check_perm();
+    $USER["PERM"] = check_perm();
 }
 
-function get_token(){
+function get_token()
+{
     global $USER;
 
     $tablename = user_getTablename();
 
-    $query = l_mysql_query("SELECT userhash FROM {$tablename} WHERE id='%s'",array($USER["ID"]));
+    $query = l_mysql_query("SELECT userhash FROM {$tablename} WHERE id='%s'", array($USER["ID"]));
     list($hash) = mysqli_fetch_row($query);
 
     return $hash ? $hash : false;
