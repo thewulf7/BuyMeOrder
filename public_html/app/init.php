@@ -5,7 +5,7 @@
  * Date: 27.04.15
  * Time: 15:49
  */
-define("APP_PATH",__DIR__);
+define("APP_PATH", __DIR__);
 
 require_once("system/loader.php");
 
@@ -16,5 +16,3 @@ loader_init();
 global $USER;
 $USER = array();
 user_get();
-
-

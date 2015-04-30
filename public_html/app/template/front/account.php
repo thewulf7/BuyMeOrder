@@ -1,0 +1,1 @@
+<h1 style="text-align: center;">Ваш баланс: <br/><?=$params["message"]?> руб.</h1>

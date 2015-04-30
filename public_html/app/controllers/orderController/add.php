@@ -11,9 +11,8 @@ function order_add()
 
     global $USER;
 
-    loader_model("orders");
-
-    if (!in_array("create", $USER["PERM"])) throw new Exception(sprintf("Ошибка: %s", "Нет прав"));
+    if (!in_array("create", $USER["PERM"])) {render_partial("order/list_empty",array("message"=>"У вас нет прав. Никаких..."));return;}
+        //throw new Exception(sprintf("Ошибка: %s", "Нет прав"));
 
     if (!empty($_POST)):
         $data = $_POST["data"];

@@ -29,7 +29,9 @@ function render($template = "", $params = array())
 function render_partial($template, $params=array())
 {
     global $USER;
+    global $CONFIG;
     $path = APP_PATH . "/template/" . $template. ".php";
+
     if (file_exists($path)) include_once($path);
     return true;
 }

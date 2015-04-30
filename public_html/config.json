@@ -17,5 +17,9 @@
   },
   "template": {
     "layout": "default"
+  },
+  "main" : {
+    "currency" : "руб.",
+    "commission" : 50
   }
 }

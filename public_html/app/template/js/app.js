@@ -5,17 +5,13 @@
 (function() {
     "use strict";
 
-    var DEFAULT_ROUTE = 'front/account';
+    var DEFAULT_ROUTE = 'front/index';
 
     var template = document.querySelector('#t');
     var ajax, pages, scaffold;
     var cache = {};
 
-    template.pages = [
-        {name: 'Профиль', hash: 'front/account', url: '/order/list'},
-        {name: 'Создать госзаказ', hash: 'order/add', url: '/order/add'},
-        {name: 'Список госзаказов', hash: 'order/list', url: '/order/list'}
-    ];
+    template.pages = menu;
 
     template.addEventListener('template-bound', function(e) {
         scaffold = document.querySelector('#scaffold');
@@ -24,32 +20,6 @@
 
         this.route = this.route || DEFAULT_ROUTE; // Select initial route.
     });
-
-
-
-
-    /*template.keyHandler = function(e, detail, sender) {
-        // Select page by num key.
-        var num = parseInt(detail.key);
-        if (!isNaN(num) && num <= this.pages.length) {
-            pages.selectIndex(num - 1);
-            return;
-        }
-
-        switch (detail.key) {
-            case 'left':
-            case 'up':
-                pages.selectPrevious();
-                break;
-            case 'right':
-            case 'down':
-                pages.selectNext();
-                break;
-            case 'space':
-                detail.shift ? pages.selectPrevious() : pages.selectNext();
-                break;
-        }
-    };*/
 
     template.menuItemSelected = function(e, detail, sender) {
         if (detail.isSelected) {

@@ -45,12 +45,18 @@ function bank_balance_add($user_id,$order_price){
 
     $tablename = bank_balance_getTablename();
 
-    list($balance_id,$salt) = mysql_fetch_row(l_mysql_query("SELECT balance,salt FROM {$usertablename} WHERE id='%d'",array($user_id)));
+    $query = l_mysql_query("SELECT balance,salt FROM {$usertablename} WHERE id='%d' LIMIT 1",array($user_id));
+
+    list($balance_id,$salt) = mysqli_fetch_row($query);
 
     $balance = bank_balance_get($balance_id);
 
     $balance = user_helperbalance($balance,$salt)+$order_price;
 
+    $salt = (int)preg_replace('/[^0-9.]+/', '', $salt);
+    $balance = base64_encode($balance + $salt);
+
     l_mysql_query("UPDATE {$tablename} SET balance='%s' WHERE id='%d'",array($balance,$balance_id));
 
+    return true;
 }

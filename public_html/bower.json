@@ -32,6 +32,9 @@
     "core-field": "Polymer/core-field#^0.5",
     "paper-input": "Polymer/paper-input#^0.5",
     "paper-button": "Polymer/paper-button#^0.5",
-    "paper-dialog": "Polymer/paper-dialog#^0.5"
+    "paper-dialog": "Polymer/paper-dialog#^0.5",
+    "paper-tabs": "Polymer/paper-tabs#^0.5",
+    "ajax-form": "~1.6.0",
+    "core-animation": "Polymer/core-animation#^0.5"
   }
 }

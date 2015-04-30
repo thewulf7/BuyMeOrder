@@ -45,6 +45,8 @@
     <link rel="import" href="/bower_components/ajax-form/ajax-form.html">
     <link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
     <link rel="import" href="/bower_components/paper-dialog/paper-action-dialog.html">
+    <link rel="import" href="/bower_components/paper-card/paper-card.html">
+    <link rel="import" href="/bower_components/core-animation/core-animation.html">
 
     <link rel="stylesheet" type="text/css" href="/app/template/css/style.css"/>
 </head>
@@ -94,6 +96,9 @@
 
     </core-scaffold>
 </template>
+<script>
+    var menu = <?php getMenu();?>;
+</script>
 <script src="/app/template/js/app.js">
 </script>
 </body>

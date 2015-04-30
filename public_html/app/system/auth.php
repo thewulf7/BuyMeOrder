@@ -27,3 +27,4 @@ function get_token(){
 
     return $hash ? $hash : false;
 }
+
