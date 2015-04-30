@@ -1,18 +1,20 @@
 /**
  * Created by johnnyutkin on 28.04.15.
  */
+
 (function() {
     "use strict";
 
-    var DEFAULT_ROUTE = 'one';
+    var DEFAULT_ROUTE = 'front/account';
 
     var template = document.querySelector('#t');
     var ajax, pages, scaffold;
     var cache = {};
 
     template.pages = [
-        {name: 'Список заказов', hash: 'order/list', url: '/order/list'},
-        {name: 'Создать заказ', hash: 'order/add', url: '/order/add'}
+        {name: 'Профиль', hash: 'front/account', url: '/order/list'},
+        {name: 'Создать госзаказ', hash: 'order/add', url: '/order/add'},
+        {name: 'Список госзаказов', hash: 'order/list', url: '/order/list'}
     ];
 
     template.addEventListener('template-bound', function(e) {
@@ -23,7 +25,10 @@
         this.route = this.route || DEFAULT_ROUTE; // Select initial route.
     });
 
-    template.keyHandler = function(e, detail, sender) {
+
+
+
+    /*template.keyHandler = function(e, detail, sender) {
         // Select page by num key.
         var num = parseInt(detail.key);
         if (!isNaN(num) && num <= this.pages.length) {
@@ -44,7 +49,7 @@
                 detail.shift ? pages.selectPrevious() : pages.selectNext();
                 break;
         }
-    };
+    };*/
 
     template.menuItemSelected = function(e, detail, sender) {
         if (detail.isSelected) {
@@ -54,7 +59,6 @@
                 if (!cache[ajax.url]) {
                     ajax.go();
                 }
-
                 scaffold.closeDrawer();
             });
 
@@ -63,6 +67,7 @@
 
     template.ajaxLoad = function(e, detail, sender) {
         e.preventDefault(); // prevent link navigation.
+
     };
 
     template.onResponse = function(e, detail, sender) {
@@ -73,6 +78,14 @@
         cache[ajax.url] = html; // Primitive caching by URL.
 
         this.injectBoundHTML(html, pages.selectedItem.firstElementChild);
+
+        var refresh = document.querySelector("#refresh");
+
+        refresh.addEventListener("click", function(){
+            ajax.go();
+        
+        scaffold.closeDrawer();
+        });
     };
 
 })();

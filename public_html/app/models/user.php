@@ -99,6 +99,6 @@ function user_create($email, $passwd, $username, $group = 2)
 
 function user_helperbalance($balance=0,$salt){
     $salt = (int)preg_replace('/[^0-9.]+/', '', $salt);
-    return (float) ($balance-$salt);
+    return (int) ($balance-$salt);
 }
 

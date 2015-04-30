@@ -13,5 +13,8 @@ require_once("system/loader.php");
 loader_init();
 
 //инициализируем юзера
+global $USER;
 $USER = array();
 user_get();
+
+

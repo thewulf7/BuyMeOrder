@@ -42,6 +42,9 @@
     <link rel="import" href="/bower_components/font-roboto/roboto.html">
     <link rel="import" href="/bower_components/core-field/core-field.html">
     <link rel="import" href="/bower_components/paper-input/paper-input.html">
+    <link rel="import" href="/bower_components/ajax-form/ajax-form.html">
+    <link rel="import" href="/bower_components/paper-dialog/paper-dialog.html">
+    <link rel="import" href="/bower_components/paper-dialog/paper-action-dialog.html">
 
     <link rel="stylesheet" type="text/css" href="/app/template/css/style.css"/>
 </head>
@@ -72,11 +75,10 @@
                 </template>
             </core-menu>
         </nav>
-
         <core-toolbar tool flex>
             <div flex>{{selectedPage.page.name}}</div>
-            <core-icon-button icon="refresh"></core-icon-button>
-            <core-icon-button icon="add"></core-icon-button>
+            <core-icon-button icon="refresh" id="refresh"></core-icon-button>
+            <div><?= $USER["NAME"]?></div>
         </core-toolbar>
 
         <div layout horizontal center-center fit>
@@ -84,7 +86,7 @@
                                  transitions="slide-from-right">
                 <template repeat="{{page, i in pages}}">
                     <section hash="{{page.hash}}" layout vertical center-center>
-                        <div style="max-width:100%;">Загрузка...</div>
+                        <div style="max-width:100%;width: 600px;">Загрузка...</div>
                     </section>
                 </template>
             </core-animated-pages>

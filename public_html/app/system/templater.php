@@ -8,6 +8,7 @@
 function layout($title, $content)
 {
     global $CONFIG;
+    global $USER;
     $path = APP_PATH . "/template/layouts/" . $CONFIG["template"]["layout"] . ".php";
     if (file_exists($path)) include_once($path);
     else return false;
@@ -16,7 +17,7 @@ function layout($title, $content)
 
 function render($template = "", $params = array())
 {
-
+    global $USER;
     $content = loader_template($template);
 
     if (!$content) return;
@@ -27,5 +28,8 @@ function render($template = "", $params = array())
 
 function render_partial($template, $params=array())
 {
-    echo loader_template($template);
+    global $USER;
+    $path = APP_PATH . "/template/" . $template. ".php";
+    if (file_exists($path)) include_once($path);
+    return true;
 }
