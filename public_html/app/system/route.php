@@ -15,7 +15,13 @@ function route()
 {
     global $USER;
 
-    $uri = explode("/", substr($_SERVER["REQUEST_URI"], 1));
+    $uri = substr($_SERVER["REQUEST_URI"], 1);
+
+    if(stripos($uri,"?")) $uri = substr($uri,0,stripos($uri,"?"));
+
+    $uri = explode("/", $uri);
+
+
 
     if (count($uri) > 1) list($controller, $action) = $uri;
 
@@ -27,6 +33,9 @@ function route()
 
     if (loader_action($controller, $action) && function_exists($func_name)) {
         loader_model($controller);
+
+        if(!isset($USER["ID"]) && $controller!="login") {header("Location: /login/do");}
+
         call_user_func_array($func_name, array_merge(array(), explode("/", substr($_SERVER["REQUEST_URI"], (strlen($func_name) + 2)))));
     } else throw new Exception(sprintf('Метода %s не существует', $func_name));
 
@@ -49,6 +58,8 @@ function redirect($func_name)
 
 function getMenu(){
     global $USER;
+
+    if(!$USER["PERM"]) {echo "[]";return;}
 
     if (in_array("create", $USER["PERM"])):
         $pages = array(

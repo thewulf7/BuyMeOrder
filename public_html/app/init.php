@@ -16,3 +16,4 @@ loader_init();
 global $USER;
 $USER = array();
 user_get();
+

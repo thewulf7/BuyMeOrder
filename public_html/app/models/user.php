@@ -59,8 +59,8 @@ function user_getInfo()
 
     loader_model("bank_balance");
 
-    $user_hash = $_COOKIE["VKDEV_USER_HASH"];
-    $user_id = $_COOKIE["VKDEV_USER_ID"];
+    $user_hash = isset($_COOKIE["VKDEV_USER_HASH"]) ? $_COOKIE["VKDEV_USER_HASH"] : false;
+    $user_id = isset($_COOKIE["VKDEV_USER_ID"]) ? $_COOKIE["VKDEV_USER_ID"] : false;
 
     if (!isset($user_id) || !isset($user_hash)) return false;
 

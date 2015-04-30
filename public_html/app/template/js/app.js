@@ -5,11 +5,13 @@
 (function() {
     "use strict";
 
-    var DEFAULT_ROUTE = 'front/index';
+    var DEFAULT_ROUTE = 'order/list';
 
     var template = document.querySelector('#t');
     var ajax, pages, scaffold;
     var cache = {};
+
+
 
     template.pages = menu;
 

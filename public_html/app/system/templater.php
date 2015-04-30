@@ -15,6 +15,16 @@ function layout($title, $content)
     return true;
 }
 
+function custom_layout($title,$template,$content)
+{
+    global $CONFIG;
+    global $USER;
+    $path = APP_PATH . "/template/layouts/" . $template . ".php";
+    if (file_exists($path)) include_once($path);
+    else return false;
+    return true;
+}
+
 function render($template = "", $params = array())
 {
     global $USER;
