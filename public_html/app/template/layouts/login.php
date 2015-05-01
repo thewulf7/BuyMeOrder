@@ -4,6 +4,8 @@
 
     <title><?=$title?></title>
 
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 
     <script src="/bower_components/webcomponentsjs/webcomponents.js">

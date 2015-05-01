@@ -33,7 +33,7 @@ function user_auth($username = false, $passwd = false)
 
     $hashpasswd = crypt($passwd, $salt);
 
-    if (hash_equals($hashpasswd, $password)):
+    if ($hashpasswd==$password):
         $hash = md5(mt_rand());
         l_mysql_query("UPDATE {$tablename} SET userhash='%s' WHERE id='%d'", array($hash, $id),$tablename);
         setcookie("VKDEV_USER_ID", $id, time() + 60 * 60 * 24 * 30, "/");
