@@ -105,6 +105,12 @@ function user_create($email, $passwd, $username, $group = 2)
     $salt = '$2a$10$' . substr(str_replace('+', '.', base64_encode(pack('N4', mt_rand(), mt_rand(), mt_rand(), mt_rand()))), 0, 22) . '$';
     $hashpasswd = crypt($passwd, $salt);
 
+    //select already user
+
+    $users = l_mysql_query("SELECT id FROM {$tablename} WHERE email='%s'",array($email));
+
+    if(mysqli_num_rows($users)>0) return false;
+
     //create balance
     $balance = bank_balance_create($salt);
 

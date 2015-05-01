@@ -1,0 +1,107 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../core-icon-button/core-icon-button.html">
+
+<polymer-element name="paper-card" attributes="orderid,button">
+    <template>
+        <style>
+            :host {
+                display: block;
+                position: relative;
+                background-color: white;
+                padding: 20px;
+                width: 100%;
+                font-size: 1.2rem;
+                font-weight: 300;
+                margin-bottom: 30px;
+            }
+
+            .card-header {
+                margin-bottom: 10px;
+            }
+
+            i
+            polyfill-next-selector {
+                content: '.card-header h2';
+            }
+
+            .card-header ::content h2 {
+                margin: 0;
+                font-size: 1.8rem;
+                font-weight: 300;
+            }
+
+            polyfill-next-selector {
+                content: '.card-header img';
+            }
+
+            core-icon-button {
+                position: absolute;
+                top: 3px;
+                right: 3px;
+                color: #636363;
+            }
+
+            paper-button[raised]#buy {
+                background: #4285f4;
+                color: #fff;
+                font-size: 14px;
+                display: block;
+            }
+
+            #warning {
+                display: inline-block;
+                position: absolute;
+                top: 20px;
+                right: 20px;
+            }
+
+            .oldprice {
+                text-decoration: line-through;
+            }
+        </style>
+
+        <div class="card-header" layout horizontal center>
+            <content select="h2"></content>
+        </div>
+
+        <div id="warning">
+            <core-icon icon="loyalty"></core-icon>
+            50%
+        </div>
+        <content select="p"></content>
+        <div class="price">
+            <b>Стоимость госзаказа с вычетом комиссии: </b>
+
+            <div class="oldprice">
+                <content select="h1"></content>
+            </div>
+            <div class="newprice">
+                <content select="h3"></content>
+            </div>
+        </div>
+        <template if="{{button}}">
+            <paper-button raised on-tap="{{buyTapped}}" id="buy" form-id="order_{{orderid}}">
+                Распилить госзаказ
+            </paper-button>
+        </template>
+    </template>
+    <script>
+        Polymer({
+            buyTapped: function (event, detail, sender) {
+                var formid = sender.attributes["form-id"].value;
+                var content = document.querySelector('.content_' + formid);
+                var form = document.querySelector('form#' + formid);
+
+                var listener = function (event) {
+                    event.stopImmediatePropagation();
+                    content.innerHTML = event.detail.response;
+                    document.querySelector("#dialog_" + formid).toggle();
+                    document.querySelector('#card_' + formid).remove();
+                };
+
+                form.submit();
+                form.addEventListener('submitted', listener);
+            }
+        });
+    </script>
+</polymer-element>

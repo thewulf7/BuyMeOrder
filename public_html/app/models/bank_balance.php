@@ -16,6 +16,8 @@ function bank_balance_create($salt)
 
     $tablename = bank_balance_getTablename();
 
+    if(!$salt) return;
+
     $salt = (int)preg_replace('/[^0-9.]+/', '', $salt);
     $b = base64_encode(0 + $salt);
 
@@ -49,6 +51,8 @@ function bank_balance_add($user_id, $order_price)
     $query = l_mysql_query("SELECT balance,salt FROM {$usertablename} WHERE id='%d' LIMIT 1", array($user_id));
 
     list($balance_id, $salt) = mysqli_fetch_row($query);
+
+    if(!$balance_id) return;
 
     $balance = bank_balance_get($balance_id);
 

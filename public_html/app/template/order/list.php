@@ -15,11 +15,3 @@
     </paper-card>
     <div class="content_order_<?=$arItem["ID"]?>"></div>
 <?php endforeach; ?>
-<core-animation id="fadeout" duration="500">
-    <core-animation-keyframe>
-        <core-animation-prop name="opacity" value="1"></core-animation-prop>
-    </core-animation-keyframe>
-    <core-animation-keyframe>
-        <core-animation-prop name="opacity" value="0"></core-animation-prop>
-    </core-animation-keyframe>
-</core-animation>

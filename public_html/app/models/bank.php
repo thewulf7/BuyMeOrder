@@ -27,7 +27,7 @@ function bank_proceed($order_id, $buyer)
 
     $already = l_mysql_query("SELECT id FROM {$tablename} WHERE order_id='%d'", array($order_id));
 
-    if ($already) return;
+    if (mysqli_num_rows($already)>0) return;
 
     $order_price = base64_decode($order["price"]) - (int)$order_id;
 

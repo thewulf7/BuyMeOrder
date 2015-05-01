@@ -10,6 +10,7 @@ function order_list()
 {
     global $USER;
     $items = orders_getList();
+
     if (count($items) > 0):
         if (!in_array("close", $USER["PERM"])):
             render_partial("order/history", array(
