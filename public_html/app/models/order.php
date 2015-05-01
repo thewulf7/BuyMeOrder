@@ -12,13 +12,18 @@ function orders_getTablename()
     return $CONFIG["db"]["prefix"] . "orders";
 }
 
+/**
+ * Получить заказ
+ * @param integer $order_id номер заказа
+ * @return bool
+ */
 function orders_get($order_id = false)
 {
     if (!$order_id) return false;
 
     $tablename = orders_getTablename();
 
-    $query = l_mysql_query("SELECT name,price,seller,active FROM {$tablename} WHERE id='%s'", array($order_id));
+    $query = l_mysql_query("SELECT name,price,seller,active FROM {$tablename} WHERE id='%s'", array($order_id),$tablename);
 
     $order = $query ? mysqli_fetch_array($query) : array();
 
@@ -26,13 +31,21 @@ function orders_get($order_id = false)
 
 }
 
+/**
+ * Создать заказ
+ * @param string $name название
+ * @param string $descr описание
+ * @param integer $price стоимость
+ * @param integer $seller продавец
+ * @return mixed
+ */
 function orders_create($name, $descr, $price, $seller)
 {
 
     $tablename = orders_getTablename();
     $usertablename = user_getTablename();
 
-    $user = l_mysql_query("SELECT salt FROM {$usertablename} WHERE id='%d' LIMIT 1", array($seller));
+    $user = l_mysql_query("SELECT salt FROM {$usertablename} WHERE id='%d' LIMIT 1", array($seller),$usertablename);
 
     list($salt) = mysqli_fetch_row($user);
 
@@ -40,12 +53,17 @@ function orders_create($name, $descr, $price, $seller)
     $price = (int)$price;
     $price = base64_encode($price + $salt);
 
-    $query = (int)l_mysql_query("INSERT INTO {$tablename} (name,descr,price,seller) VALUES ('%s','%s','%s','%d')", array($name, $descr, $price, $seller));
+    $query = (int)l_mysql_query("INSERT INTO {$tablename} (name,descr,price,seller) VALUES ('%s','%s','%s','%d')", array($name, $descr, $price, $seller),$tablename);
 
     return $query > 0 ? $query : false;
 
 }
 
+/**
+ * Получить список заказов
+ * @param bool $active активность заказов
+ * @return bool
+ */
 function orders_getList($active = true)
 {
     global $CONFIG, $USER;
@@ -59,12 +77,12 @@ function orders_getList($active = true)
 
     $commission = (float)(100 - $CONFIG["main"]["commission"]) / 100;
 
-    $query = l_mysql_query("SELECT id,name,descr,price,seller,created FROM {$tablename} WHERE active='%d'", array($active));
+    $query = l_mysql_query("SELECT id,name,descr,price,seller,created FROM {$tablename} WHERE active='%d'", array($active),$tablename);
 
     while ($item = mysqli_fetch_array($query)):
         $arItem = array();
         //генерируем токен для проверки
-        list($salt) = mysqli_fetch_row(l_mysql_query("SELECT salt FROM {$usertablename} WHERE id='%d' LIMIT 1", array($item["seller"])));
+        list($salt) = mysqli_fetch_row(l_mysql_query("SELECT salt FROM {$usertablename} WHERE id='%d' LIMIT 1", array($item["seller"]),$usertablename));
         $salt = (int)preg_replace('/[^0-9.]+/', '', $salt);
 
         $arItem = array(
@@ -84,11 +102,16 @@ function orders_getList($active = true)
     return $items;
 }
 
+/**
+ * Закрыть заказ
+ * @param integer $id номер заказа
+ * @return bool
+ */
 function orders_close($id)
 {
     $tablename = orders_getTablename();
 
-    $query = l_mysql_query("UPDATE {$tablename} SET active='%d' WHERE id='%d' AND active='1'", array("0", $id));
+    $query = l_mysql_query("UPDATE {$tablename} SET active='%d' WHERE id='%d' AND active='1'", array("0", $id),$tablename);
 
     if ($query) return true;
     else return false;

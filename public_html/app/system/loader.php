@@ -85,8 +85,8 @@ function loader_model($model)
 
 /**
  * Подключить шаблон
- * @param string $model метод
- * @return bool
+ * @param string $file шаблон
+ * @return mixed
  */
 function loader_template($file)
 {

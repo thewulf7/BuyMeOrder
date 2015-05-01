@@ -43,6 +43,12 @@ function route()
     return true;
 }
 
+/**
+ * Создать соединение
+ * @param string $func_name имя контроллера/метода
+ * @return bool
+ * @throws Exception
+ */
 function redirect($func_name)
 {
 
@@ -57,6 +63,10 @@ function redirect($func_name)
     return true;
 }
 
+/**
+ * Разделение меню для юзеров
+ * @return string
+ */
 function getMenu()
 {
     global $USER;
