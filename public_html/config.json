@@ -9,10 +9,10 @@
     ]
   },
   "db": {
-    "server": "127.0.0.1",
+    "server": "localhost",
     "user": "dbuser",
     "password": "nostr@Damus",
-    "dbname": "vkdev",
+    "dbname": "vkdev_users",
     "prefix": "vkdev_"
   },
   "template": {

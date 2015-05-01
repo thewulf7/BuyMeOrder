@@ -19,6 +19,7 @@ function user_getTablename()
  */
 function user_auth($username = false, $passwd = false)
 {
+    global $USER;
 
     $tablename = user_getTablename();
 
@@ -37,6 +38,7 @@ function user_auth($username = false, $passwd = false)
         l_mysql_query("UPDATE {$tablename} SET userhash='%s' WHERE id='%d'", array($hash, $id),$tablename);
         setcookie("VKDEV_USER_ID", $id, time() + 60 * 60 * 24 * 30, "/");
         setcookie("VKDEV_USER_HASH", $hash, time() + 60 * 60 * 24 * 30, "/");
+        $USER = user_getInfo();
         return $id;
     else:
         return false;

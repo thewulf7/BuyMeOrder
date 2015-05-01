@@ -12,7 +12,7 @@
  */
 function loadConfig()
 {
-    $config = file_get_contents("./config.json");
+    $config = file_get_contents(__DIR__."/config.json");
     return !empty($config) ? json_decode($config, true) : array();
 }
 

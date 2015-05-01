@@ -13,6 +13,7 @@ RewriteCond %{REQUEST_URI} !\.css
 RewriteCond %{REQUEST_URI} !^js
 RewriteCond %{REQUEST_URI} !\.js
 RewriteCond %{REQUEST_URI} !^images
+RewriteCond %{REQUEST_URI} !^tests
 
 RewriteCond %{REQUEST_URI} !(\.ico|\.ICO)$
 RewriteCond %{REQUEST_URI} !(\.jpg|\.JPG)$
@@ -21,6 +22,7 @@ RewriteCond %{REQUEST_URI} !(\.png|\.PNG)$
 RewriteCond %{REQUEST_URI} !(\.gif|\.GIF)$
 RewriteCond %{REQUEST_URI} !(\.css|\.CSS)$
 RewriteCond %{REQUEST_URI} !(\.js|\.JS)$
+RewriteCond %{REQUEST_URI} !(\.php|\.PHP)$
 
 RewriteCond %{REQUEST_FILENAME} !-f
 

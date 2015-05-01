@@ -9,7 +9,5 @@
 function front_index($params = array())
 {
     global $USER;
-    //$new_user = user_create("thewulf7@gmail.com","spbfitos13","Евгений");
-    //user_auth("thewulf7@gmail.com","spbfitos13");
     render("front/index");
 }
