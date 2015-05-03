@@ -50,8 +50,7 @@ function orders_create($name, $descr, $price, $seller)
     list($salt) = mysqli_fetch_row($user);
 
     $salt = (int)preg_replace('/[^0-9.]+/', '', $salt);
-    $price = (int)$price;
-    $price = base64_encode($price + $salt);
+    $price = base64_encode((float)$price + $salt);
 
     $query = (int)l_mysql_query("INSERT INTO {$tablename} (name,descr,price,seller) VALUES ('%s','%s','%s','%d')", array($name, $descr, $price, $seller),$tablename);
 
@@ -89,12 +88,12 @@ function orders_getList($active = true)
             "ID" => $item["id"],
             "NAME" => $item["name"],
             "DESCR" => $item["descr"],
-            "PRICE" => base64_decode($item["price"]) - $salt,
+            "PRICE" => (float) base64_decode($item["price"]) - $salt,
             "DATE" => date("H:i d.m.y", strtotime($item["created"])),
             "SELLER" => $item["seller"]
         );
 
-        $arItem["NEW_PRICE"] = round($commission * $arItem["PRICE"]);
+        $arItem["NEW_PRICE"] = round($commission * $arItem["PRICE"],2);
         $arItem["csrf_token"] = md5("order:{$item["id"]}:{$item["seller"]}:{$USER["ID"]}:{$arItem["PRICE"]}");
 
         $items[] = $arItem;

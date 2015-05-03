@@ -55,7 +55,7 @@ function bank_proceed($order_id, $buyer)
 
     $order_price_hash = base64_encode($order_price+$salt);
 
-    l_mysql_query("INSERT INTO {$tablename} (order_id,buyer,price,status) VALUES ('%d','%d','%s','%d')", array($order_id, $buyer, $order_price, 2),$tablename);
+    l_mysql_query("INSERT INTO {$tablename} (order_id,buyer,price,status) VALUES ('%d','%d','%s','%d')", array($order_id, $buyer, $order_price_hash, 2),$tablename);
 
     if (bank_balance_add($buyer, $order_price)) return true;
     else return false;
