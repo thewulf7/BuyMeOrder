@@ -28,6 +28,7 @@ function bank_proceed($order_id, $buyer)
     global $CONFIG;
 
     $tablename = bank_getTablename();
+    $usertablename = user_getTablename();
 
     loader_model("order");
     loader_model("bank_balance");
@@ -40,13 +41,21 @@ function bank_proceed($order_id, $buyer)
 
     if (mysqli_num_rows($already)>0) return false;
 
-    $order_price = base64_decode($order["price"]) - (int)$order_id;
+    $user = l_mysql_query("SELECT salt FROM {$usertablename} WHERE id='%d' LIMIT 1", array($order["seller"]),$usertablename);
+
+    list($salt) = mysqli_fetch_row($user);
+
+    $salt = (int) preg_replace('/[^0-9.]+/', '', $salt);
+
+    $order_price = (float) base64_decode($order["price"]) - $salt;
 
     $commission = (float)(100 - $CONFIG["main"]["commission"]) / 100;
 
-    if ($commission > 0) $order_price = round($order_price * $commission);
+    if ($commission > 0) $order_price = round($order_price * $commission,2);
 
-    l_mysql_query("INSERT INTO {$tablename} (order_id,buyer,price,status) VALUES ('%d','%d','%s','%d')", array($order_id, $buyer, $order["price"], 2),$tablename);
+    $order_price_hash = base64_encode($order_price+$salt);
+
+    l_mysql_query("INSERT INTO {$tablename} (order_id,buyer,price,status) VALUES ('%d','%d','%s','%d')", array($order_id, $buyer, $order_price, 2),$tablename);
 
     if (bank_balance_add($buyer, $order_price)) return true;
     else return false;
