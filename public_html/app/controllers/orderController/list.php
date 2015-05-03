@@ -13,7 +13,7 @@ function order_list()
 
     if (count($items) > 0):
         if (!in_array("close", $USER["PERM"])):
-            render_partial("order/history", array(
+            render_partial("order/list_admin", array(
                 "ITEMS" => $items
             ));
         else:
