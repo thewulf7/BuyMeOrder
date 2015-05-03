@@ -8,7 +8,7 @@
         </paper-input-decorator>
 
         <paper-input-decorator floatingLabel label="Стоимость, руб.">
-            <input name="data[price]" type="number" required="required"/>
+            <input name="data[price]" type="text" required="required"/>
         </paper-input-decorator>
 
         <input type="hidden" name="data[csrf_token]" value="<?=$params['token']?>"/>

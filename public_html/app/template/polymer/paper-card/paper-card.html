@@ -1,7 +1,7 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/bower_components/core-icon-button/core-icon-button.html">
 
-<polymer-element name="paper-card" attributes="orderid,button,comm">
+<polymer-element name="paper-card" attributes="orderid,button,comm,oldprice">
     <template>
         <style>
             :host {
@@ -63,18 +63,20 @@
         <div class="card-header" layout horizontal center>
             <content select="h2"></content>
         </div>
-
-        <div id="warning">
-            <core-icon icon="loyalty"></core-icon>
-            {{comm}}%
-        </div>
+        <template if="{{comm}}">
+            <div id="warning">
+                <core-icon icon="loyalty"></core-icon>
+                {{comm}}%
+            </div>
+        </template>
         <content select="p"></content>
         <div class="price">
             <b>Стоимость госзаказа с вычетом комиссии: </b>
-
-            <div class="oldprice">
-                <content select="h1"></content>
-            </div>
+            <template if="{{oldprice}}">
+                <div class="oldprice">
+                    <content select="h1"></content>
+                </div>
+            </template>
             <div class="newprice">
                 <content select="h3"></content>
             </div>
