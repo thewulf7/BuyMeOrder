@@ -49,7 +49,9 @@ function l_mysql_query($query, $params = array(), $dbname = "")
         endforeach;
         $query = vsprintf($query, $params);
     endif;
+
     $result = mysqli_query($DB, $query);
+
     if (!$result) throw new Exception(sprintf("Ошибка: %s", mysqli_error($DB)));
 
     if(strripos($query,"INSERT")===0) $result = mysqli_insert_id($DB);

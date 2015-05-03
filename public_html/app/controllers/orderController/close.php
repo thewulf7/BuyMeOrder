@@ -13,7 +13,7 @@ function order_close()
 
     switch ($_SERVER["REQUEST_METHOD"]) {
         case "GET" :
-            redirect("front/index");
+            redirect("order/list");
             break;
         case "POST":
             if (!empty($_POST)):
@@ -40,7 +40,7 @@ function order_close()
                     return false;
                 endif;
             else:
-                redirect("front/index");
+                redirect("order/list");
             endif;
             break;
     }

@@ -65,7 +65,7 @@ function bank_balance_add($user_id, $order_price)
 
     $tablename = bank_balance_getTablename();
 
-    $query = l_mysql_query("SELECT balance,salt FROM {$usertablename} WHERE id='%d' LIMIT 1", array($user_id),$tablename);
+    $query = l_mysql_query("SELECT balance,salt FROM {$usertablename} WHERE id='%d' LIMIT 1", array($user_id),$usertablename);
 
     list($balance_id, $salt) = mysqli_fetch_row($query);
 

@@ -17,7 +17,7 @@ function bank_getTablename()
 }
 
 /**
- * Подключить не стандартный шаблон
+ * Провести оплату
  * @param integer $order_id номер заказа
  * @param integer $buyer покупатель
  * @return bool
@@ -30,6 +30,7 @@ function bank_proceed($order_id, $buyer)
     $tablename = bank_getTablename();
 
     loader_model("order");
+    loader_model("bank_balance");
 
     $order = orders_get($order_id);
 
@@ -37,7 +38,7 @@ function bank_proceed($order_id, $buyer)
 
     $already = l_mysql_query("SELECT id FROM {$tablename} WHERE order_id='%d'", array($order_id),$tablename);
 
-    if (mysqli_num_rows($already)>0) return;
+    if (mysqli_num_rows($already)>0) return false;
 
     $order_price = base64_decode($order["price"]) - (int)$order_id;
 
