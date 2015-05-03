@@ -1,7 +1,7 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/bower_components/core-icon-button/core-icon-button.html">
 
-<polymer-element name="paper-card" attributes="orderid,button">
+<polymer-element name="paper-card" attributes="orderid,button,comm">
     <template>
         <style>
             :host {
@@ -66,7 +66,7 @@
 
         <div id="warning">
             <core-icon icon="loyalty"></core-icon>
-            50%
+            {{comm}}%
         </div>
         <content select="p"></content>
         <div class="price">

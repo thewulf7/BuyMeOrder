@@ -1,5 +1,5 @@
 <?php foreach($params["ITEMS"] as $arItem):?>
-    <paper-card orderid="<?=$arItem["ID"]?>">
+    <paper-card orderid="<?=$arItem["ID"]?>" comm="<?= $CONFIG["main"]["commission"]?>">
 
         <h2><?= $arItem["NAME"]?></h2>
         <p><?= $arItem["DESCR"]?></p>

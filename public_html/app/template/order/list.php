@@ -1,5 +1,5 @@
 <?php foreach($params["ITEMS"] as $arItem):?>
-    <paper-card on-buy-tap="{{handleBuy}}" orderid="<?=$arItem["ID"]?>" button="true" id="card_order_<?=$arItem["ID"]?>">
+    <paper-card on-buy-tap="{{handleBuy}}" orderid="<?=$arItem["ID"]?>" button="true" comm="<?= $CONFIG["main"]["commission"]?>" id="card_order_<?=$arItem["ID"]?>">
 
         <h2><?= $arItem["NAME"]?></h2>
         <p><?= $arItem["DESCR"]?></p>
