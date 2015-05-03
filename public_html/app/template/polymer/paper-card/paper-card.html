@@ -90,15 +90,23 @@
     <script>
         Polymer({
             buyTapped: function (event, detail, sender) {
-                var formid = sender.attributes["form-id"].value;
-                var content = document.querySelector('.content_' + formid);
-                var form = document.querySelector('form#' + formid);
+                var formid = sender.attributes["form-id"].value,
+                    content = document.querySelector('.content_loader'),
+                    form = document.querySelector('form#' + formid),
+                    scaffold = document.querySelector('#scaffold'),
+                    ajax = document.querySelector('#ajax');
 
                 var listener = function (event) {
                     event.stopImmediatePropagation();
                     content.innerHTML = event.detail.response;
                     document.querySelector("#dialog_" + formid).toggle();
-                    document.querySelector('#card_' + formid).remove();
+
+                    delete cache["/order/list"];
+                    delete cache["/order/history"];
+                    delete cache["/front/account"];
+
+                    ajax.go();
+                    scaffold.closeDrawer();
                 };
 
                 form.submit();

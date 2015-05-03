@@ -1,7 +1,7 @@
 /**
  * Created by johnnyutkin on 28.04.15.
  */
-
+var cache = {};
 (function () {
     "use strict";
 
@@ -10,22 +10,27 @@
 
     var template = document.querySelector('#t');
     var ajax, pages, scaffold;
-    var cache = {};
+
 
 
     template.pages = menu;
 
     template.addEventListener('template-bound', function (e) {
         scaffold = document.querySelector('#scaffold');
-        ajax = document.querySelector('#ajax');
+        ajax = document.querySelector('#ajax'),
         pages = document.querySelector('#pages');
 
+        var refresh = document.querySelector("#refresh");
+
+        refresh.addEventListener("click", function () {
+            ajax.go();
+            scaffold.closeDrawer();
+        });
         this.route = this.route || DEFAULT_ROUTE; // Select initial route.
     });
 
     template.menuItemSelected = function (e, detail, sender) {
         if (detail.isSelected) {
-
             // Need to wait one rAF so <core-ajax> has it's URL set.
             this.async(function () {
                 if (!cache[ajax.url]) {
@@ -34,7 +39,6 @@
                 scaffold.closeDrawer();
             });
             document.querySelector("title").innerText = APP_NAME + " - " + detail.item.innerText;
-
         }
     };
 
@@ -51,13 +55,10 @@
 
         this.injectBoundHTML(html, pages.selectedItem.firstElementChild);
 
-        var refresh = document.querySelector("#refresh");
 
-        refresh.addEventListener("click", function () {
-            ajax.go();
-            scaffold.closeDrawer();
-        });
     };
+
+
 
 })();
 

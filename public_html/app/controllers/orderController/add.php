@@ -22,10 +22,22 @@ function order_add()
         $token = get_token();
         if ($data["csrf_token"] == $token):
             $data["descr"] = isset($data["descr"]) ? $data["descr"] : "";
+
+            $data["price"] = str_replace(",", ".", $data["price"]);
+
+            $data["price"] = parseFloat($data["price"]);
+
+            if ($data["price"] == 0 || !$data["price"]) {
+                render_partial("order/success", array("message" => "Произошла ошибка в процессе создания. ФСБ уже выехало к вам)"));
+                return false;
+            }
+
             if ($id = orders_create($data["name"], $data["descr"], $data["price"], $USER["ID"])):
                 render_partial("order/success", array("message" => "Госзаказ создан и добавлен в список!"));
+                return true;
             else:
                 render_partial("order/success", array("message" => "Произошла ошибка в процессе создания. ФСБ уже выехало к вам)"));
+                return false;
             endif;
         endif;
     else:

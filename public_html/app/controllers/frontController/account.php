@@ -15,5 +15,5 @@ function front_account()
 
     $total += $USER["BALANCE"];
 
-    render_partial("front/account", array("message" => number_format($total, 0, "", " ")));
+    render_partial("front/account", array("message" => number_format($total, 2, ".", " ")));
 }

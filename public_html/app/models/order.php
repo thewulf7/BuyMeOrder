@@ -76,7 +76,9 @@ function orders_getList($active = true)
 
     $commission = (float)(100 - $CONFIG["main"]["commission"]) / 100;
 
-    $query = l_mysql_query("SELECT id,name,descr,price,seller,created FROM {$tablename} WHERE active='%d'", array($active),$tablename);
+    $order = $active==1 ? "created" : "closed";
+
+    $query = l_mysql_query("SELECT id,name,descr,price,seller,created FROM {$tablename} WHERE active='%d' ORDER BY {$order} DESC", array($active),$tablename);
 
     while ($item = mysqli_fetch_array($query)):
         $arItem = array();
@@ -110,7 +112,7 @@ function orders_close($id)
 {
     $tablename = orders_getTablename();
 
-    $query = l_mysql_query("UPDATE {$tablename} SET active='%d' WHERE id='%d' AND active='1'", array("0", $id),$tablename);
+    $query = l_mysql_query("UPDATE {$tablename} SET active='%d',closed='NOW()' WHERE id='%d' AND active='1'", array("0", $id),$tablename);
 
     if ($query) return true;
     else return false;

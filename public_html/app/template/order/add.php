@@ -8,23 +8,32 @@
         </paper-input-decorator>
 
         <paper-input-decorator floatingLabel label="Стоимость, руб.">
-            <input name="data[price]" type="text" required="required"/>
+            <input name="data[price]" type="text" required="required" id="input_price"/>
         </paper-input-decorator>
 
         <input type="hidden" name="data[csrf_token]" value="<?=$params['token']?>"/>
 
         <paper-button raised class="colored" id="buttonSend">Создать</paper-button>
 </form>
-<div id="content">
-</div>
 <script>
 
     (function() {
+        "use strict";
+
         var form = document.querySelectorAll('form')[0],
-            content = document.getElementById('content');
+            content = document.querySelectorAll('.content_loader')[0],
+            scaffold = document.querySelector('#scaffold'),
+            ajax = document.querySelector('#ajax');
 
         document.getElementById("buttonSend").addEventListener("click", function(){
             form.submit();
+        });
+
+        form.querySelector("#input_price").addEventListener("keyup",function(e){
+            var value = e.target.value;
+            var re = /[^0-9\-\.]/gi;
+            if (re.test(value)) e.target.value = value.replace(re, '');
+
         });
 
         form.addEventListener('invalid', function() {
@@ -32,17 +41,17 @@
         });
 
         form.addEventListener('submitting', function(event) {
-            //event.detail.raytest = 'foobar';
-            //event.detail.color = 'blue';
+            //while submitting
         });
 
         form.addEventListener('submitted', function(event) {
             content.innerHTML = event.detail.response;
-            var inputs = form.querySelectorAll('input');
-            for(var i=0;i<(inputs.length-2);i++) {
-                inputs[i].value = "";
-            }
-            form.querySelectorAll('textarea')[0].value="";
+
+            delete cache["/order/list"];
+
+            ajax.go();
+            scaffold.closeDrawer();
+
             document.getElementById("dialog").toggle();
         });
     }());

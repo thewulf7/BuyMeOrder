@@ -67,5 +67,6 @@
 </script>
 <script src="/app/template/js/app.js">
 </script>
+<div class="content_loader"></div>
 </body>
 </html>
