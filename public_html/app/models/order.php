@@ -112,7 +112,7 @@ function orders_close($id)
 {
     $tablename = orders_getTablename();
 
-    $query = l_mysql_query("UPDATE {$tablename} SET active='%d',closed='NOW()' WHERE id='%d' AND active='1'", array("0", $id),$tablename);
+    $query = l_mysql_query("UPDATE {$tablename} SET active='%d',closed=NOW() WHERE id='%d' AND active='1'", array("0", $id),$tablename);
 
     if ($query) return true;
     else return false;

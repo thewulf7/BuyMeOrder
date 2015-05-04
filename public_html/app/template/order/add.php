@@ -49,7 +49,7 @@
 
             var price = parseFloat(form.querySelector("#input_price").value);
 
-            if (price > 0) {
+            if (price && price > 0) {
                 delete cache["/order/list"];
 
                 ajax.go();
