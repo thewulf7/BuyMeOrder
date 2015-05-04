@@ -25,10 +25,10 @@ function order_add()
 
             $data["price"] = str_replace(",", ".", $data["price"]);
 
-            $data["price"] = parseFloat($data["price"]);
+            $data["price"] = floatval($data["price"]);
 
             if ($data["price"] == 0 || !$data["price"]) {
-                render_partial("order/success", array("message" => "Произошла ошибка в процессе создания. ФСБ уже выехало к вам)"));
+                render_partial("order/success", array("message" => "Стоимость не может быть нулевой!"));
                 return false;
             }
 
