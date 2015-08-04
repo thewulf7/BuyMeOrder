@@ -1,6 +1,6 @@
 # BuyMeOrder
 
-System to buy&sell
+Test task to design "System to buy&sell" on php, without oop feature
 
 #Installation
 
